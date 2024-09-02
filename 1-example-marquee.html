@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>streak footer (trickaweek)</title>
+  <!--
+  <script type="text/javascript" src="./week-of-year.html#0"></script> -->
+  <style type="text/css">
+
+    :root {
+      --hue: 230;
+      --background-color: hsl(var(--hue) 56% 56%);
+      --highlight-color:  hsl(var(--hue) 52% 81%);
+
+      /* see wheel.html for example use */
+      --wheel-scale: 1;
+      --wheel-size:  calc(100px * var(--wheel-scale));
+
+      --wheel-space: calc(var(--wheel-size) / 1);
+    }
+
+    /* see background-cornered...html example for advanced usage*/
+    html {
+      background-color: var(--background-color);
+      background: radial-gradient(
+        circle at center, 
+        var(--highlight-color),
+        var(--background-color)
+      );
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* pointer elements place rendered views
+     */
+    reactive-prop,
+    reactive-attr,
+    reactive-comp { /* define more */
+      display: none;
+    }
+
+    /* action bar in footer */
+    footer {
+      height: 16vh;
+       width: 100%;
+
+      position: absolute;
+      top: 100%;
+    }
+
+    /* comes up the `weeks-on-streak` marquee */
+    footer weeks-on-streak {
+      display: block;
+
+      position: relative;
+      left: 0px;
+       top: 3vh;
+
+      height: 10vh;
+       width: calc(50% - var(--wheel-size) / 2
+                       - var(--wheel-space));
+
+      overflow-x: hidden;
+      clip-path: polygon(95% 0%, 100% 50%, 95% 100%,
+                          0% 100%, 0% 0%);
+      /* recalculate polygon with JS (vh, vw) */
+      background: #000;
+
+      /* … movie clipper style to think up */
+    }
+
+    footer weeks-on-streak ul {
+      position: relative;
+      right: 0px;
+      width: auto;
+
+      display: block;
+
+      list-style-type: none;
+    }
+
+    weeks-on-streak ul li:nth-child(odd)  {}
+    weeks-on-streak ul li:nth-child(even) {}
+    weeks-on-streak ul li:last-of-type {
+      /* styling choices */
+    }
+
+  </style>
+</head>
+<body>
+  <footer>
+    <weeks-on-streak
+     WEEK_IN_YEAR=""><!-- reactive tpl --> 
+      <ul> 
+        <template id="weeks-on-streak">
+          <li><head>${WEEK_IN_YEAR}</head></li>
+        </template>
+        <!-- we know this tpl is to load here -->
+      </ul>
+    </weeks-on-streak>
+  </footer>
+<script type="text/javascript">
+{
+/// dummy state objects to hold database records
+let SESSION =  { userId: 1234, 
+             streakData: [],
+            displayName: "blaz_skate",
+           siteThemeHue: "220" };
+
+let curUser 
+=  SESSION.userId !== undefined || Number;
+
+let streakData
+= [
+  { userId: 1234 }, /// user avatar data
+  { weekIdx: 34 },
+  { weekIdx: 33 },
+  { weekIdx: 32 },
+  { weekIdx: 31 },
+  ] || null;
+
+let DB_Streaks
+=  [streakData]; /// first streak on site
+
+   addEventListener("DOMContentLoaded", e => {
+     console.log(SESSION.siteThemeHue);
+    setTheme_hue(SESSION.siteThemeHue);
+
+   /// don't know yet where to bind component
+   new WeeksOnStreak({
+       WEEK_IN_YEAR: Date.getWeek
+                 && (Date.getWeek()),
+
+       DB_Streaks,
+          curUser: curUser.streakData,
+   })}, 5);
+
+let totalWidth;
+}
+
+function incrementWidth (newNode, padding=20) {
+  /* something about marquee being a slider */
+}
+
+function setTheme_hue (hue) {
+document.firstElementChild
+        .style.setProperty('--hue', hue);
+ //////  one control for variable theme color
+}
+
+/*  "… on …"[ion]  ·  [on]"… in …"([o])  ·  [on]"… io …"[n]  #  jsOnIon, jsOnion, jsonIon, JSonIon, JSONIon, SONion
+// /  //   //  / //   //  / // /  //  /  ///
+
+                  /* 
+                 / `\
+                ´    ``
+          Sort      
+         of              peeling
+         a                    loop …
+         \           
+          `       .          /
+                  #         ´
+
+  //////////////////////////////////////////
+ /*  constants, structs, utils, macros   */
+let  WEEK_IN_YEAR = Date.getWeek();
+let
+ $, container = ["footer weeks-on-streak", "ul"],
+ _,  template = ["template#weeks-on-streak"],
+
+ $WeeksOnStreak = {
+  container: ($ = querySelector(container)),
+   template: (_ =
+                $.querySelector( template )
+                                 .content
+                                   [0]),
+
+             /*   instead of later automated
+                  let  node
+                   = _.firstElementChild
+                      .cloneNode( true ); */
+
+      props: {
+        "template#weeks-on-streak": {
+           "li head": {
+               "\\$": ["props.WEEK_IN_YEAR"]
+      }}}
+};
+
+///// above is vanilla js => boilerplate 
+///// below is component  => reactive element
+class WeeksOnStreak {
+  onComponentWillMount (container
+       = $WeeksOnStream.container) {
+           perChildNode(container, (child) =>
+                                    false);
+  }
+
+  constructor (props) {
+    if (!props instanceof Object
+    ||  !props.WEEK_IN_YEAR instanceof Number
+    ||  !props.DB_Streaks   instanceof Array
+    ||  !props.curUser      instanceof Object)
+   ////  props.DB_Streaks[0] is session user 
+         throw (".");
+
+    const {DB_Streaks, WEEK_IN_YEAR} = (props);
+     var  sessionUser 
+      =    DB_Streaks.shift(); 
+
+
+     var  node
+      = _.cloneNode( true );
+
+          node.setAttribute("key", "...hmm");
+          //// thinking onion-key out loud
+
+     let  pathHasProps
+      =   Array.from(node.querySelector(
+                         $WeeksOnStreak.props
+                                         [0]));
+
+    ///// pathHasProps()
+    ///// … what are the required objects?
+          
+          switch (pathHasProps.childNodes[0] 
+                    instanceof TextNode) {
+           //// thinking element type out loud
+           //// there's text and template tags
+          }
+
+    ////// so you see problem with vanilla js
+       _[  content  =
+        (querySelector(
+         $WeeksOnStreak.props[0])
+                      ).innerHTML
+                       .replace(
+         $WeeksOnStreak.props[1],
+                        props.WEEK_IN_YEAR
+                          ||  WEEK_IN_YEAR)  ];
+    ////// need to get node_id to query AST?
+
+         $.append();
+    ////// appending elements to occur in loop 
+  }
+}
+
+//*/\/\/ /\ /  \ element macros  / \/ /\ /\/\/*/
+
+/*//////
+  render: a lacking generalist function
+ */
+Element.prototype.perChildNode =
+         function perChildNode (fn) {
+  var
+   i, child;
+
+  if  (typeof fn === "function")
+      {
+  if  (container.children.length > 0)
+  for ([i, child] 
+   of  Array.from(container.childNodes)
+                           .entries() ) 
+      {
+        switch(fn(container, child)) {
+         case  !!(true):{ continue }
+         case  !! false: child.remove();
+   }}}
+}
+
+/*//////
+  render: 
+  needto: keep <template> nodes in place
+
+          keep track of in-text exprs,
+          with ENUMS for:
+       - `reactive-expr`
+       - `reactive-comp`
+       - `reactive-attr`
+       - ``
+ */
+Element.prototype.reactiveRefresh =
+         function reactiveRefresh (props) {
+         if ("object"  !==  typeof props) return;
+         if ("object"  !==         props.__)
+            var keys = Object.keys(props);
+            var match;
+
+  ///// recognize and skip
+  const rxTextSpace
+    =  /^\s+[^\S]?$/m;
+
+  ///// get insides of one expr (minimalist)
+  const rxExpr
+    =  /\${\s*(.*)\s*}/;
+
+  ///// code here plays with simple exprs
+  const fn
+    =   (container, child) => {
+
+         switch
+        (child.constructor.name) {
+         case "HTMLTemplateElement": 
+         case "Text":
+         //// what can happen reactively
+         //// … is replaced with hidden tags
+        }
+    if  (child.constructor.name === "Text")
+        {
+    if  (child.nodeValue
+    &&   child.nodeValue.match(rxTextSpace))
+   ///// are layout linebreak spaces trimmed?
+         child.remove();
+
+    else (
+   /////  what does that mean?
+          match
+       =  child.nodeValue.match(rxExpr)
+         )
+
+   ///// this is trial and error … next version!
+    if  (child.tagName === "REACTIVE-VAR")
+    if  (props
+        [child.reactiveKey] !== undefined)
+   ///// reactive instance key is considered
+    if  (child.nextSiblingChild
+    &&   child.nextSiblingChild
+        [child.reactiveKey] === undefined)
+   ///// and yes, there needs to be a breakdown
+         child.after(document.createTextNode(
+               props[   child.reactiveKey   ]));
+    };
+
+
+   ///// here we need to loop through DOM nodes
+   ////  here we don't know which fn is the loop
+    if  (this.childNodes) {
+
+   }
+   else
+    if  (this.children) {
+         this.perChildNode(fn)
+   }
+   else
+    if  (this.content
+    &&   this.content) {
+   ////  this is document fragment in template
+   ////  ... it only has `children` array
+    }
+
+   /*    what about the output
+    */   return void undefined;
+  };
+
+
+/*//////
+ render: refreshing rendered state elements
+ created elements are tested for sort order
+ existing elements are removed from DOM when …
+ */
+Element.prototype.sortAdd =
+         function sortAdd (...elements) {
+    var sortingFn, 
+        sortOrder;
+
+   const  rxSortOrder
+     =   /^(?:(a)|(de))sc]$/i;
+
+    if (typeof
+        elements[elements.length-1] === "function") {
+        sortingFn = elements.pop();
+/*
+        elements.sort(sortingFn);
+
+        perChildNode.call(elements, fn);
+ */
+    }
+
+    if (typeof
+        elements[elements.length-1] === "string") {
+        sortOrder
+            =    elements.pop();
+
+        var match;
+        if (match = rxSortOrder.exec(sortOrder))
+        sortOrder = (match[1] && 1
+                              || 0);
+    }
+
+    function sortDefaultASC  () {}
+    function sortDefaultDESC () {
+    elements=elements.sort((a, b) => {
+          if (typeof a._key !== "undefined") {
+          if (typeof b._key !== "undefined")
+              return a._key  >  b._key; 
+          }})
+    };    /// need to name a key, though
+          /// ... would be an attribute
+          ///     as cloned nodes keep it 
+
+
+  ////  append reactive placeholder elements
+  ////  asc on sorting `key` (try naming it)
+  try  {
+  if  (!sortingFn instanceof
+                   Function       )
+  for (let node of this.childNodes) {
+       if (typeof node.key === "undefined") {
+  /*
+        this code is like, BUT existing elements 
+
+        this.childNodes
+        this.every((obj, i)        =>
+        element  <  obj && (true)  ||
+        element === obj && (null)  ||
+        element  >  obj && (
+        obj.before()
+        this.splice(i, 0, element))
+                        && (false);
+   */
+       }
+  }
+
+  ////  sortingFn arg sequence & results
+  else  this.every((obj, i) =>
+  {
+  switch (sortingFn(element, obj, i)) {
+   case  true: return (true);
+   case  null: return (null);
+   case false: return (
+               this.splice(i, 0, element));
+  }});
+  }
+  catch (err) { throw err }
+};
+
+
+ /////////////////////////
+//  ... one down, baby!
+Array.prototype.sortAdd =
+       function sortAdd (element,
+                        sortingFn=null) {
+       ////  place in array, sorting `desc`
+       try  {
+        if  (!sortingFn instanceof
+                         Function)
+              this.every((obj, i)        =>
+              element  <  obj && (true)  ||
+              element === obj && (null)  ||
+              element  >  obj &&
+              this.splice(i, 0, element));
+        ////  simply traverse in reverse?
+
+        ////  sortingFn arg sequence & results
+        else  this.every((obj, i) => {});
+       {
+       switch (sortingFn(element, obj, i)) {
+        case  true: return (true);
+        case  null: return (null);
+        case false: return (
+                    this.splice(i, 0, element));
+       }}}
+       catch (err) { throw err }
+};
+
+  //
+ // on SortingKey in projects/jsonion-db
+/*
+  class SortingKey {
+    ...
+
+    if (typeof order     !== "number" 
+    ||  typeof sortByKey !== "string")
+        throw "Sorting key input type mismatch";
+
+        result.push({ [sortByKey]: order });
+/*//////
+
+  //
+ // in BoundaryRequirementType, airmoth/inArrType
+/*
+    requirements object formed array with 0:ENUM 
+    … contains: rxRules, boundary ranges 
+/*//////
+
+  for (i=0; i < WEEK_IN_YEAR; i++) {
+       $WeeksOnStreak;
+       $tpl.cloneNode(true);
+  };
+     
+  function render$WeeksOnStreak () {
+       new Array(WEEK_IN_YEAR).map(() => true);
+       /// about prerendering props at return
+  }
+}
+
+// Returns the ISO week of the date.
+Date.prototype.getWeek = function () {
+
+  var 
+  dateNow = new Date(this.getTime());
+  dateNow.setHours(   0, 0, 0, 0   );
+
+  /// thursday in current week decides the year
+  dateNow.setDate(3 + dateNow.getDate() // 1-31
+               - (6 + dateNow.getDay()) // 0-6
+               %  7);
+
+  /// january 4 is always in week 1
+  var
+  weekOne = new Date(dateNow.getFullYear(), 0, 4);
+
+  /// adjust to thursday in week 1 and count number of weeks from date to week1
+  return 1 + Math.round(
+       ((dateNow.getTime()
+      -  weekOne.getTime()) / 86400000 // days in
+      -  3                            // thursday
+      + (weekOne.getDay() + 6) % 7) / 7);
+}
+
+</script>
+</body>
+</html>
